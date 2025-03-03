@@ -1,7 +1,7 @@
-import HomeStoreDataInterface from "./home.store.data.interface";
-import HomeStoreItemInterface from "./home.store.item.interface";
+import HomeStoreDataInterface from "@/stores/home.store.data.interface";
 import NewsApiResultInterface from "./news.api.result.interface";
 import NewsApiInterface from "./newsapi.interface";
+import HomeStoreItemInterface from "@/stores/home.store.item.interface";
 
 const FetchNewsApi = async (homeData: HomeStoreDataInterface): Promise<NewsApiResultInterface> => {
   try {

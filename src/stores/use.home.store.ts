@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import HomeStoreStateInterface from "./home.store.state.interface";
-import HomeStoreDataInterface from "./home.store.data.interface";
 import HomeStoreItemInterface from "./home.store.item.interface";
 
 export const useHomeStore = create<HomeStoreStateInterface>((set, get) => ({

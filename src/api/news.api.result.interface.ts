@@ -1,4 +1,4 @@
-import HomeStoreItemInterface from "./home.store.item.interface";
+import HomeStoreItemInterface from "@/stores/home.store.item.interface";
 
 export default interface NewsApiResultInterface {
   success: boolean;

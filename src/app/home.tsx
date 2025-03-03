@@ -1,18 +1,13 @@
 import { Container, TextField, Typography } from "@mui/material";
-import RecipeReviewCard from "./recipe.review.card";
 import { useEffect } from "react";
-import { useHomeStore } from "./use.home.store";
-import HomeStoreDataInterface from "./home.store.data.interface";
-import HomeStoreItemInterface from "./home.store.item.interface";
-import NewsApiInterface from "./newsapi.interface";
 import Grid from "@mui/material/Grid2";
-import FetchNewsApi from "./news.api";
+import { useHomeStore } from "@/stores/use.home.store";
+import FetchNewsApi from "@/api/news.api";
+import HomeStoreItemInterface from "@/stores/home.store.item.interface";
+import RecipeReviewCard from "@/components/recipe.review.card";
 
 const Home = () => {
   const { setHomeData, homeData, getHomeData } = useHomeStore((state) => state);
-  const setSearchTerm = (value) => {
-    getHomeData(1, 4, value);
-  };
   useEffect(() => {
     let fetchData = async (homeData) => {
       let home = await FetchNewsApi(homeData);
@@ -33,7 +28,7 @@ const Home = () => {
         variant="outlined"
         margin="normal"
         value={homeData.term}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={(e) => getHomeData(1, homeData.itemPerPage, e.target.value)}
       />
       <Grid container spacing={2}>
         {homeData.items.map((homeStoreItemInterface: HomeStoreItemInterface, index) => {
