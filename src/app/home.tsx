@@ -1,22 +1,38 @@
 import { Container, TextField, Typography } from "@mui/material";
 import { useEffect } from "react";
 import Grid from "@mui/material/Grid2";
-import { useHomeStore } from "@/stores/use.home.store";
-import FetchNewsApi from "@/api/news.api";
-import HomeStoreItemInterface from "@/stores/home.store.item.interface";
 import RecipeReviewCard from "@/components/recipe.review.card";
+import Filter from "@/components/filter";
+import { useArticlesStore } from "@/stores/articles/use.articles.store";
+import FetchNewsApiArticles from "@/api/news-api/articles/fetch.news.api.articles";
+import FetchNewsApiSources from "@/api/news-api/source/fetch.news.api.sources";
+import { useSourcesStore } from "@/stores/sources/use.sources.store";
+import ArticlesStoreItemInterface from "@/stores/articles/articles.store.item.interface";
+import { useCategoriesStore } from "@/stores/categories/use.categories.store";
 
 const Home = () => {
-  const { setHomeData, homeData, getHomeData } = useHomeStore((state) => state);
+  const { setArticles, articles, getArticles } = useArticlesStore((state) => state);
+  const { setSources, sources } = useSourcesStore((state) => state);
+  const { setCategories, categories } = useCategoriesStore((state) => state);
   useEffect(() => {
-    let fetchData = async (homeData) => {
-      let home = await FetchNewsApi(homeData);
+    let fetchData = async (articles) => {
+      let home = await FetchNewsApiArticles(articles);
       if (home.success) {
-        setHomeData(home.items, home.total);
+        setArticles(home.items, home.total);
       }
     };
-    fetchData(homeData);
-  }, [homeData.term]);
+    fetchData(articles);
+  }, [articles.term]);
+  useEffect(() => {
+    let fetchData = async () => {
+      let data = await FetchNewsApiSources();
+      if (data.success) {
+        setSources(data.items);
+        setCategories(data.catgeories);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <Container>
       <Typography variant="h4" textAlign="center" marginY={4}>
@@ -27,17 +43,24 @@ const Home = () => {
         label="Search News"
         variant="outlined"
         margin="normal"
-        value={homeData.term}
-        onChange={(e) => getHomeData(1, homeData.itemPerPage, e.target.value)}
+        value={articles.term}
+        onChange={(e) => getArticles(1, articles.itemPerPage, e.target.value)}
       />
       <Grid container spacing={2}>
-        {homeData.items.map((homeStoreItemInterface: HomeStoreItemInterface, index) => {
-          return (
-            <Grid size={3} key={index}>
-              <RecipeReviewCard item={homeStoreItemInterface} />
-            </Grid>
-          );
-        })}
+        <Grid size={9}>
+          <Grid container spacing={2}>
+            {articles.items.map((homeStoreItemInterface: ArticlesStoreItemInterface, index) => {
+              return (
+                <Grid size={4} key={index}>
+                  <RecipeReviewCard item={homeStoreItemInterface} />
+                </Grid>
+              );
+            })}
+          </Grid>
+        </Grid>
+        <Grid size={3}>
+          <Filter />
+        </Grid>
       </Grid>
     </Container>
   );

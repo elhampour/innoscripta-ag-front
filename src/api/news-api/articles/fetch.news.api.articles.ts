@@ -1,9 +1,11 @@
-import HomeStoreDataInterface from "@/stores/home.store.data.interface";
-import NewsApiResultInterface from "./news.api.result.interface";
-import NewsApiInterface from "./newsapi.interface";
-import HomeStoreItemInterface from "@/stores/home.store.item.interface";
+import NewsApiArticlesResultInterface from "./news.api.articles.result.interface";
+import NewsApiArticlesInterface from "./news.api.articles.interface";
+import ArticlesStoreDataInterface from "@/stores/articles/articles.store.data.interface";
+import ArticlesStoreItemInterface from "@/stores/articles/articles.store.item.interface";
 
-const FetchNewsApi = async (homeData: HomeStoreDataInterface): Promise<NewsApiResultInterface> => {
+const FetchNewsApiArticles = async (
+  homeData: ArticlesStoreDataInterface
+): Promise<NewsApiArticlesResultInterface> => {
   try {
     const response = await fetch(
       `https://newsapi.org/v2/top-headlines?country=us&apiKey=fc9babb014884ee5802a95fb915a78c3&pageSize=${
@@ -15,9 +17,9 @@ const FetchNewsApi = async (homeData: HomeStoreDataInterface): Promise<NewsApiRe
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    const newsApiResult: NewsApiInterface = await response.json();
+    const newsApiResult: NewsApiArticlesInterface = await response.json();
 
-    const homeArticles: HomeStoreItemInterface[] = newsApiResult.articles.map((newsArticle) => ({
+    const homeArticles: ArticlesStoreItemInterface[] = newsApiResult.articles.map((newsArticle) => ({
       author: newsArticle.author,
       title: newsArticle.title,
       publishedAt: newsArticle.publishedAt,
@@ -40,4 +42,4 @@ const FetchNewsApi = async (homeData: HomeStoreDataInterface): Promise<NewsApiRe
   }
 };
 
-export default FetchNewsApi;
+export default FetchNewsApiArticles;

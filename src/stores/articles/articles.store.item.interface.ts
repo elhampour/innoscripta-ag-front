@@ -1,4 +1,4 @@
-export default interface HomeStoreItemInterface {
+export default interface ArticlesStoreItemInterface {
   author: string;
   title: string;
   publishedAt: Date;
