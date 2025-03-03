@@ -1,17 +1,30 @@
 import NewsApiArticlesResultInterface from "./news.api.articles.result.interface";
 import NewsApiArticlesInterface from "./news.api.articles.interface";
-import ArticlesStoreDataInterface from "@/stores/articles/articles.store.data.interface";
 import ArticlesStoreItemInterface from "@/stores/articles/articles.store.item.interface";
+import ArticlesFilterStoreInterface from "@/stores/articles/articles.filter.store.interface";
+import dayjs from "dayjs";
 
 const FetchNewsApiArticles = async (
-  homeData: ArticlesStoreDataInterface
+  filter: ArticlesFilterStoreInterface
 ): Promise<NewsApiArticlesResultInterface> => {
   try {
-    const response = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=us&apiKey=fc9babb014884ee5802a95fb915a78c3&pageSize=${
-        homeData.itemPerPage + 1
-      }&page=${homeData.current}&q=${homeData.term}`
-    );
+    let url = `https://newsapi.org/v2/top-headlines?apiKey=fc9babb014884ee5802a95fb915a78c3&pageSize=${
+      filter.itemPerPage + 1
+    }&page=${filter.current}`;
+
+    if (filter.term.length >= 1) {
+      url = `${url}&q=${filter.term}`;
+    }
+
+    if (filter.catgeory.length >= 1) {
+      url = `${url}&category=${filter.catgeory}&country=us`;
+    } else if (filter.sources.length >= 1) {
+      url = `${url}&sources=${filter.sources}`;
+    } else {
+      url = `${url}&country=us`;
+    }
+
+    const response = await fetch(url);
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -19,13 +32,19 @@ const FetchNewsApiArticles = async (
 
     const newsApiResult: NewsApiArticlesInterface = await response.json();
 
-    const homeArticles: ArticlesStoreItemInterface[] = newsApiResult.articles.map((newsArticle) => ({
+    let homeArticles: ArticlesStoreItemInterface[] = newsApiResult.articles.map((newsArticle) => ({
       author: newsArticle.author,
       title: newsArticle.title,
       publishedAt: newsArticle.publishedAt,
       urlToImage: newsArticle.urlToImage,
       description: newsArticle.description,
     }));
+
+    if (filter.date != null) {
+      homeArticles = homeArticles.filter((article) =>
+        dayjs(article.publishedAt).isSame(filter.date, "day")
+      );
+    }
 
     return {
       success: newsApiResult.status === "ok",

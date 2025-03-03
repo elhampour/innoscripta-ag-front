@@ -9,20 +9,21 @@ import FetchNewsApiSources from "@/api/news-api/source/fetch.news.api.sources";
 import { useSourcesStore } from "@/stores/sources/use.sources.store";
 import ArticlesStoreItemInterface from "@/stores/articles/articles.store.item.interface";
 import { useCategoriesStore } from "@/stores/categories/use.categories.store";
+import ArticlesFilterStoreInterface from "@/stores/articles/articles.filter.store.interface";
 
 const Home = () => {
-  const { setArticles, articles, getArticles } = useArticlesStore((state) => state);
+  const { setArticles, articles, filter, filterByTerm } = useArticlesStore((state) => state);
   const { setSources, sources } = useSourcesStore((state) => state);
   const { setCategories, categories } = useCategoriesStore((state) => state);
   useEffect(() => {
-    let fetchData = async (articles) => {
-      let home = await FetchNewsApiArticles(articles);
+    let fetchData = async (filter: ArticlesFilterStoreInterface) => {
+      let home = await FetchNewsApiArticles(filter);
       if (home.success) {
         setArticles(home.items, home.total);
       }
     };
-    fetchData(articles);
-  }, [articles.term]);
+    fetchData(filter);
+  }, [filter]);
   useEffect(() => {
     let fetchData = async () => {
       let data = await FetchNewsApiSources();
@@ -43,8 +44,8 @@ const Home = () => {
         label="Search News"
         variant="outlined"
         margin="normal"
-        value={articles.term}
-        onChange={(e) => getArticles(1, articles.itemPerPage, e.target.value)}
+        value={filter.term}
+        onChange={(e) => filterByTerm(e.target.value)}
       />
       <Grid container spacing={2}>
         <Grid size={9}>

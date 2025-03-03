@@ -22,7 +22,7 @@ const FetchNewsApiSources = async (): Promise<NewsApiSourcesResultInterface> => 
     const categories: LookupDataInterface[] = [
       ...new Set(result.sources.map((source) => source.category)),
     ].map((category, index) => ({
-      id: (index + 1).toString(),
+      id: category,
       name: category,
     }));
 

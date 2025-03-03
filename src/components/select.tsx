@@ -1,11 +1,4 @@
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  SelectChangeEvent,
-} from "@mui/material";
+import { FormControl, InputLabel, MenuItem, OutlinedInput, Select } from "@mui/material";
 import React from "react";
 import CustomSelectInterface from "./custom.select.interface";
 import LookupDataInterface from "@/stores/lookup.data.interface";
@@ -17,14 +10,11 @@ const CustomSelect = ({
   item: CustomSelectInterface;
   items: LookupDataInterface[];
 }) => {
-  const [personName, setPersonName] = React.useState<string[]>([]);
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+  const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
-      typeof value === "string" ? value.split(",") : value
-    );
+    item.onChange(typeof value === "string" ? value.split(",") : value);
   };
   return (
     <FormControl sx={{ m: 1, width: "100%" }}>
@@ -32,13 +22,13 @@ const CustomSelect = ({
       <Select
         labelId="demo-multiple-name-label"
         id="demo-multiple-name"
-        multiple
-        value={personName}
+        multiple={item.multiple}
+        value={item.value}
         onChange={handleChange}
         input={<OutlinedInput label="Name" />}
       >
         {items.map((name) => (
-          <MenuItem key={name.id} value={name.name}>
+          <MenuItem key={name.id} value={name.id}>
             {name.name}
           </MenuItem>
         ))}

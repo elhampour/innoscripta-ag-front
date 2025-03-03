@@ -1,28 +1,58 @@
 import { create } from "zustand";
 import ArticlesStoreStateInterface from "./articles.store.state.interface";
 import ArticlesStoreItemInterface from "./articles.store.item.interface";
+import dayjs, { Dayjs } from "dayjs";
 
 export const useArticlesStore = create<ArticlesStoreStateInterface>((set, get) => ({
   articles: {
     pages: 0,
-    current: 1,
-    term: "",
-    itemPerPage: 6,
     items: [],
     totalCount: 0,
   },
-  getArticles: (page: number, itemPerPage: number, term: string) => {
+  filter: {
+    current: 1,
+    itemPerPage: 6,
+    term: "",
+    catgeory: "",
+    sources: [],
+    date: null,
+  },
+  filterByTerm: (term: string) => {
     set((state) => ({
-      articles: {
-        ...state.articles,
-        term: term ? term : "",
-        itemPerPage: itemPerPage ? itemPerPage : 5,
-        current: page ? page : 1,
+      filter: {
+        ...state.filter,
+        term: term,
+      },
+    }));
+  },
+  filterByCategory: (category: string) => {
+    set((state) => ({
+      filter: {
+        ...state.filter,
+        catgeory: category,
+        sources: [],
+      },
+    }));
+  },
+  filterBySources: (sources: string[]) => {
+    set((state) => ({
+      filter: {
+        ...state.filter,
+        sources: sources,
+        catgeory: "",
+      },
+    }));
+  },
+  filterByDate: (date: Dayjs) => {
+    set((state) => ({
+      filter: {
+        ...state.filter,
+        date: date,
       },
     }));
   },
   setArticles: (data: ArticlesStoreItemInterface[], totalCount: number) => {
-    let pages = totalCount / get().articles.itemPerPage;
+    let pages = totalCount / get().filter.itemPerPage;
     set((state) => ({
       articles: {
         ...state.articles,
