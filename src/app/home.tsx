@@ -10,6 +10,9 @@ import { useSourcesStore } from "@/stores/sources/use.sources.store";
 import ArticlesStoreItemInterface from "@/stores/articles/articles.store.item.interface";
 import { useCategoriesStore } from "@/stores/categories/use.categories.store";
 import ArticlesFilterStoreInterface from "@/stores/articles/articles.filter.store.interface";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { Link } from "react-router-dom";
+import CustomComponent from "./custom.component";
 
 const Home = () => {
   const { setArticles, articles, filter, filterByTerm } = useArticlesStore((state) => state);
@@ -24,29 +27,31 @@ const Home = () => {
     };
     fetchData(filter);
   }, [filter]);
-  useEffect(() => {
-    let fetchData = async () => {
-      let data = await FetchNewsApiSources();
-      if (data.success) {
-        setSources(data.items);
-        setCategories(data.catgeories);
-      }
-    };
-    fetchData();
-  }, []);
+ 
   return (
-    <Container>
-      <Typography variant="h4" textAlign="center" marginY={4}>
-        Google News Clone
-      </Typography>
-      <TextField
-        fullWidth
-        label="Search News"
-        variant="outlined"
-        margin="normal"
-        value={filter.term}
-        onChange={(e) => filterByTerm(e.target.value)}
-      />
+    <CustomComponent title="Google News Clone">
+      <Grid size={12}>
+        <Grid container spacing={2}>
+          <Grid size={11}>
+            <TextField
+              fullWidth
+              label="Search News"
+              variant="outlined"
+              margin="normal"
+              value={filter.term}
+              onChange={(e) => filterByTerm(e.target.value)}
+            />
+          </Grid>
+          <Grid
+            size={1}
+            style={{ color: "grey", margin: "auto", textAlign: "center", cursor: "pointer" }}
+          >
+            <Link to={"/setting"}>
+              <SettingsIcon style={{ fontSize: "30px" }} />
+            </Link>
+          </Grid>
+        </Grid>
+      </Grid>
       <Grid container spacing={2}>
         <Grid size={9}>
           <Grid container spacing={2}>
@@ -63,7 +68,7 @@ const Home = () => {
           <Filter />
         </Grid>
       </Grid>
-    </Container>
+    </CustomComponent>
   );
 };
 
