@@ -1,119 +1,49 @@
-import dayjs from "dayjs";
-
 import ArticlesStoreItemInterface from "@/stores/articles/articles.store.item.interface";
 import ArticlesFilterStoreInterface from "@/stores/articles/articles.filter.store.interface";
-import LookupDataInterface from "@/stores/common/lookup.data.interface";
-import DefaultValues from "@/utils/default.values";
 
 import NewYorkTimesApiArticlesResultInterface from "./new.york.times.api.articles.result.interface";
-import NewYorkTimesApiArticlesInterface from "./new.york.times.api.articles.interface";
+import BuildUrl from "./build.url";
+import FetchApiData from "./fetch.api.data";
+import FilterByAuthors from "./filter.by.authors";
+import FilterBySources from "./filter.by.sources";
+import MapUniqueValuesToLookupData from "./map.unique.values.to.lookup.data";
 
 const FetchNewYorkTimesApiArticles = async (
   filter: ArticlesFilterStoreInterface
 ): Promise<NewYorkTimesApiArticlesResultInterface> => {
-  let url = `https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=LJTszMqBWnOhHg96tIl5FtgJpM5IWOlL`;
-
-  if (filter.term.length >= 1) {
-    url = `${url}&q=${filter.term}`;
-  }
-
-  if (filter.date) {
-    const today = dayjs(filter.date).format("YYYYMMDD");
-    const tomorrow = dayjs(filter.date).add(1, "day").format("YYYYMMDD");
-    url = `${url}&begin_date=${today}&end_date=${tomorrow}`;
-  }
-
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
-  }
-
-  let result: NewYorkTimesApiArticlesInterface =
-    (await response.json()) as NewYorkTimesApiArticlesInterface;
-
-  const authors: LookupDataInterface[] = [
-    DefaultValues.getSelect(),
-    ...[...new Set(result.response.docs.map((source) => source.byline.original))].map((author) => ({
-      id: author,
-      name: author,
-    })),
-  ];
-
-  const sources: LookupDataInterface[] = [
-    DefaultValues.getSelect(),
-    ...[...new Set(result.response.docs.map((source) => source.source))].map((author) => ({
-      id: author,
-      name: author,
-    })),
-  ];
-
-  const categoires: LookupDataInterface[] = [
-    DefaultValues.getSelect(),
-    ...[...new Set(result.response.docs.map((source) => source.news_desk))].map((author) => ({
-      id: author,
-      name: author,
-    })),
-  ];
-
-  const filterBySources = (
-    response: NewYorkTimesApiArticlesInterface,
-    sourcesList: string[]
-  ): NewYorkTimesApiArticlesInterface => {
-    const sourcesArray = sourcesList.map((pub) => pub.toLowerCase());
-
-    const filteredResults = response.response.docs.filter((result) => {
-      return sourcesArray.includes(result.source.toLowerCase());
-    });
-
-    return {
-      ...response,
-      response: {
-        ...response.response,
-        docs: filteredResults,
-      },
-    };
-  };
-
-  const filterByAuthors = (
-    response: NewYorkTimesApiArticlesInterface,
-    authorsList: string[]
-  ): NewYorkTimesApiArticlesInterface => {
-    const authorsArray = authorsList.map((pub) => pub.toLowerCase());
-
-    const filteredResults = response.response.docs
-      .filter((a) => a.byline.original)
-      .filter((result) => {
-        return authorsArray.includes(result.byline.original.toLowerCase());
-      });
-
-    return {
-      ...response,
-      response: {
-        ...response.response,
-        docs: filteredResults,
-      },
-    };
-  };
+  const url = BuildUrl(filter);
+  let result = await FetchApiData(url);
 
   if (filter.authors.length >= 1) {
-    result = filterByAuthors(result, filter.authors);
+    result = FilterByAuthors(result, filter.authors);
   }
 
   if (filter.sources.length >= 1) {
-    result = filterBySources(result, filter.sources);
+    result = FilterBySources(result, filter.sources);
   }
 
-  const homeArticles: ArticlesStoreItemInterface[] = result.response.docs.map((newsArticle) => {
-    const image = newsArticle.multimedia.find((a) => a.type == "image");
+  const authors = MapUniqueValuesToLookupData(
+    result.response.docs.map((doc) => doc.byline.original)
+  );
+
+  const sources = MapUniqueValuesToLookupData(
+    result.response.docs.map((doc) => doc.source)
+  );
+
+  const categories = MapUniqueValuesToLookupData(
+    result.response.docs.map((doc) => doc.news_desk)
+  );
+
+  const homeArticles: ArticlesStoreItemInterface[] = result.response.docs.map((article) => {
+    const image = article.multimedia.find((a) => a.type === "image");
     return {
-      author: newsArticle.byline.original,
-      title: newsArticle.headline.main,
-      publishedAt: newsArticle.pub_date,
+      author: article.byline.original,
+      title: article.headline.main,
+      publishedAt: article.pub_date,
       urlToImage: image ? `https://static01.nyt.com/${image.url}` : "/images.png",
-      description: newsArticle.abstract,
-      category: newsArticle.news_desk,
-      source: newsArticle.source,
+      description: article.abstract,
+      category: article.news_desk,
+      source: article.source,
     };
   });
 
@@ -122,7 +52,7 @@ const FetchNewYorkTimesApiArticles = async (
     items: result.status === "OK" ? homeArticles : [],
     authors: result.status === "OK" ? authors : [],
     sources: result.status === "OK" ? sources : [],
-    categoires: result.status === "OK" ? categoires : [],
+    categories: result.status === "OK" ? categories : [],
   };
 };
 

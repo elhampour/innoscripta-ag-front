@@ -5,6 +5,6 @@ export default interface NewYorkTimesApiArticlesResultInterface {
   success: boolean;
   items: ArticlesStoreItemInterface[];
   authors: LookupDataInterface[];
-  categoires: LookupDataInterface[];
+  categories: LookupDataInterface[];
   sources: LookupDataInterface[];
 }
