@@ -42,20 +42,20 @@ const Home = () => {
       <Grid container spacing={2}>
         {isMd && (
           <>
-            <Grid size={{ lg: 3, md: 12 }} width={"100%"}>
+            <Grid size={{ md: 3, sm: 12 }} width={"100%"}>
               <Filter />
             </Grid>
-            <Grid size={{ lg: 9, md: 12 }}>
+            <Grid size={{ md: 9, sm: 12 }}>
               <ArticleGrid articles={currentArticles} />
             </Grid>
           </>
         )}
         {!isMd && (
           <>
-            <Grid size={{ lg: 9, md: 12 }}>
+            <Grid size={{ md: 9, sm: 12 }}>
               <ArticleGrid articles={currentArticles} />
             </Grid>
-            <Grid size={{ lg: 3, md: 12 }}>
+            <Grid size={{ md: 3, sm: 12 }}>
               <Filter />
             </Grid>
           </>
