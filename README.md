@@ -40,9 +40,9 @@ docker build -t website -f .dockerfile .
 Run the Docker container: Once the image is built, you can run the project inside a Docker container with the following command:
 
 ```bash
-docker run --name website -d --restart unless-stopped -p 3001:3001 website
+docker run --name website -d --restart unless-stopped -p 3000:3000 website
 ```
-This will start the project and map the local port 3001 to the container's port 3001. You can access the project at http://localhost:3001.
+This will start the project and map the local port 3001 to the container's port 3001. You can access the project at http://localhost:3000.
 
 
 
