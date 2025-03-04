@@ -26,7 +26,7 @@ To run the project locally, follow these steps:
    ```
    Run the project in Visual Studio Code (Optional): Alternatively, if you are using Visual Studio Code, you can open the project in VS Code and press F5 to run the project directly from the IDE.
    
-   This will start the project and map the local port 3001 to the container's port 3001. You can access the project at http://localhost:3001.
+   This will start the project and run the project on local port 3001. You can access the project at http://localhost:3001.
 
 3. **Option 2: Running with Docker**:
 To run the project using Docker, follow these steps:
@@ -42,7 +42,7 @@ Run the Docker container: Once the image is built, you can run the project insid
 ```bash
 docker run --name website -d --restart unless-stopped -p 3000:3000 website
 ```
-This will start the project and map the local port 3001 to the container's port 3001. You can access the project at http://localhost:3000.
+This will start the project and map the local port 3000 to the container's port 3000. You can access the project at http://localhost:3000.
 
 
 
