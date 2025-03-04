@@ -4,6 +4,7 @@ import LookupDataInterface from "@/stores/common/lookup.data.interface";
 import NewYorkTimesApiArticlesResultInterface from "./new.york.times.api.articles.result.interface";
 import NewYorkTimesApiArticlesInterface from "./new.york.times.api.articles.interface";
 import dayjs from "dayjs";
+import DefaultValues from "@/utils/default.values";
 
 const FetchNewYorkTimesApiArticles = async (
   filter: ArticlesFilterStoreInterface
@@ -29,7 +30,7 @@ const FetchNewYorkTimesApiArticles = async (
   let result: NewYorkTimesApiArticlesInterface = await response.json();
 
   const authors: LookupDataInterface[] = [
-    { id: "-1", name: "Select" },
+    DefaultValues.getSelect(),
     ...[...new Set(result.response.docs.map((source) => source.byline.original))].map((author) => ({
       id: author,
       name: author,
@@ -37,7 +38,7 @@ const FetchNewYorkTimesApiArticles = async (
   ];
 
   const sources: LookupDataInterface[] = [
-    { id: "-1", name: "Select" },
+    DefaultValues.getSelect(),
     ...[...new Set(result.response.docs.map((source) => source.source))].map((author) => ({
       id: author,
       name: author,
@@ -45,7 +46,7 @@ const FetchNewYorkTimesApiArticles = async (
   ];
 
   const categoires: LookupDataInterface[] = [
-    { id: "-1", name: "Select" },
+    DefaultValues.getSelect(),
     ...[...new Set(result.response.docs.map((source) => source.news_desk))].map((author) => ({
       id: author,
       name: author,

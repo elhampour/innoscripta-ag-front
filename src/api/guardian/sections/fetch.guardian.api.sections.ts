@@ -1,6 +1,7 @@
 import LookupDataInterface from "@/stores/common/lookup.data.interface";
 import GuardianApiSectionsInterface from "./guardian.api.sections.interface";
 import GuardianApiSectionsResultInterface from "./guardian.api.sections.result.interface";
+import DefaultValues from "@/utils/default.values";
 
 const FetchGuardianApiSections = async (): Promise<GuardianApiSectionsResultInterface> => {
   const response = await fetch(
@@ -14,10 +15,7 @@ const FetchGuardianApiSections = async (): Promise<GuardianApiSectionsResultInte
   const result: GuardianApiSectionsInterface = await response.json();
 
   const sections: LookupDataInterface[] = [
-    {
-      id: "-1",
-      name: "Select",
-    },
+    DefaultValues.getSelect(),
     ...result.response.results.map((newsArticle) => ({
       id: newsArticle.id,
       name: newsArticle.webTitle,

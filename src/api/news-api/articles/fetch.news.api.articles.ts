@@ -4,6 +4,7 @@ import ArticlesStoreItemInterface from "@/stores/articles/articles.store.item.in
 import ArticlesFilterStoreInterface from "@/stores/articles/articles.filter.store.interface";
 import dayjs from "dayjs";
 import LookupDataInterface from "@/stores/common/lookup.data.interface";
+import DefaultValues from "@/utils/default.values";
 
 const FetchNewsApiArticles = async (
   filter: ArticlesFilterStoreInterface
@@ -40,7 +41,7 @@ const FetchNewsApiArticles = async (
   }));
 
   const authors: LookupDataInterface[] = [
-    { id: "-1", name: "Select" },
+    DefaultValues.getSelect(),
     ...[...new Set(homeArticles.map((source) => source.author))].map((author) => ({
       id: author,
       name: author,

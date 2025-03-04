@@ -4,6 +4,7 @@ import GuardianApiContentsResultInterface from "./guardian.api.contents.result.i
 import LookupDataInterface from "@/stores/common/lookup.data.interface";
 import ArticlesFilterStoreInterface from "@/stores/articles/articles.filter.store.interface";
 import dayjs from "dayjs";
+import DefaultValues from "@/utils/default.values";
 
 const FetchGuardianApiContents = async (
   filter: ArticlesFilterStoreInterface
@@ -23,7 +24,7 @@ const FetchGuardianApiContents = async (
     url = `${url}&from-date=${today}&to-date=${tomorrow}`;
   }
 
-  if (filter.category != "-1") {
+  if (filter.category != DefaultValues.getSelect().id) {
     url = `${url}&section=${filter.category}`;
   }
 
@@ -36,10 +37,7 @@ const FetchGuardianApiContents = async (
   let result: GuardianApiContentsInterface = await response.json();
 
   const sources: LookupDataInterface[] = [
-    {
-      id: "-1",
-      name: "Select",
-    },
+    DefaultValues.getSelect(),
     ...[...new Set(result.response.results.map((source) => source.fields.publication))].map(
       (pub) => ({
         id: pub,
@@ -49,10 +47,7 @@ const FetchGuardianApiContents = async (
   ];
 
   const authors: LookupDataInterface[] = [
-    {
-      id: "-1",
-      name: "Select",
-    },
+    DefaultValues.getSelect(),
     ...[
       ...new Set(
         result.response.results

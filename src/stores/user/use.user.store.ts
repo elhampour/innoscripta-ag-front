@@ -2,13 +2,14 @@ import { create } from "zustand";
 import UserStoreStateInterface from "./user.store.state.interface";
 import { ApiSourceType } from "@/types/api.source.type";
 import UserStoreDataInterface from "./user.store.data.interface";
+import DefaultValues from "@/utils/default.values";
 
 export const useUserStore = create<UserStoreStateInterface>((set, get) => ({
   user: {
-    category: "-1",
+    category: DefaultValues.getSelect().id,
     sources: [],
     authors: [],
-    apiSourceType: ApiSourceType.Select,
+    apiSourceType: ApiSourceType.Default,
   },
   setUser: (data: UserStoreDataInterface) => {
     set({
@@ -18,10 +19,10 @@ export const useUserStore = create<UserStoreStateInterface>((set, get) => ({
   clearUser: () => {
     set({
       user: {
-        category: "-1",
+        category: DefaultValues.getSelect().id,
         sources: [],
         authors: [],
-        apiSourceType: ApiSourceType.Select,
+        apiSourceType: ApiSourceType.Default,
       },
     });
   },

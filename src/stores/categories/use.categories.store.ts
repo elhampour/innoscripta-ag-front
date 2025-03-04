@@ -1,14 +1,13 @@
 import { create } from "zustand";
 import CategoriesStoreStateInterface from "./categories.store.data.interface";
 import LookupDataInterface from "../common/lookup.data.interface";
+import DefaultValues from "@/utils/default.values";
 
 export const useCategoriesStore = create<CategoriesStoreStateInterface>((set, get) => ({
   categories: {
+    default: [DefaultValues.getSelect()],
     newsApi: [
-      {
-        id: "-1",
-        name: "Select",
-      },
+      DefaultValues.getSelect(),
       {
         id: "business",
         name: "business",
@@ -38,18 +37,8 @@ export const useCategoriesStore = create<CategoriesStoreStateInterface>((set, ge
         name: "technology",
       },
     ],
-    guardian: [
-      {
-        id: "-1",
-        name: "Select",
-      },
-    ],
-    newYorkTimes: [
-      {
-        id: "-1",
-        name: "Select",
-      },
-    ],
+    guardian: [DefaultValues.getSelect()],
+    newYorkTimes: [DefaultValues.getSelect()],
   },
   setCategoriesByGuardianApi: (data: LookupDataInterface[]) => {
     set((state) => ({

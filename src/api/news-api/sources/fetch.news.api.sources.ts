@@ -1,6 +1,7 @@
 import NewsApiSourcesResultInterface from "./news.api.sources.result.interface";
 import NewsApiSourcesInterface from "./news.api.sources.interface";
 import LookupDataInterface from "@/stores/common/lookup.data.interface";
+import DefaultValues from "@/utils/default.values";
 
 const FetchNewsApiSources = async (): Promise<NewsApiSourcesResultInterface> => {
   const response = await fetch(
@@ -14,10 +15,7 @@ const FetchNewsApiSources = async (): Promise<NewsApiSourcesResultInterface> => 
   const result: NewsApiSourcesInterface = await response.json();
 
   const sources: LookupDataInterface[] = [
-    {
-      id: "-1",
-      name: "Select",
-    },
+    DefaultValues.getSelect(),
     ...result.sources.map((newsArticle) => ({
       id: newsArticle.id,
       name: newsArticle.name,

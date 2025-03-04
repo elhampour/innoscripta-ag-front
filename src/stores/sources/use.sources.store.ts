@@ -1,27 +1,14 @@
 import { create } from "zustand";
 import SourcesStoreStateInterface from "./sources.store.data.interface";
 import LookupDataInterface from "../common/lookup.data.interface";
+import DefaultValues from "@/utils/default.values";
 
 export const useSourcesStore = create<SourcesStoreStateInterface>((set, get) => ({
   sources: {
-    newsApi: [
-      {
-        id: "-1",
-        name: "Select",
-      },
-    ],
-    guardian: [
-      {
-        id: "-1",
-        name: "Select",
-      },
-    ],
-    newYorkTimes: [
-      {
-        id: "-1",
-        name: "Select",
-      },
-    ],
+    default: [DefaultValues.getSelect()],
+    newsApi: [DefaultValues.getSelect()],
+    guardian: [DefaultValues.getSelect()],
+    newYorkTimes: [DefaultValues.getSelect()],
   },
   setSourcesByNewsApi: (data: LookupDataInterface[]) => {
     set((state) => ({

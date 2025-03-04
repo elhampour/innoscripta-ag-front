@@ -1,5 +1,5 @@
 export enum ApiSourceType {
-  Select = "Select",
+  Default = "default",
   NewsApi = "newsApi",
   Guardian = "guardian",
   NewYorkTimes = "newYorkTimes",

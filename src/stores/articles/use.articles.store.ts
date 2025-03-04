@@ -3,6 +3,7 @@ import ArticlesStoreStateInterface from "./articles.store.state.interface";
 import ArticlesStoreItemInterface from "./articles.store.item.interface";
 import dayjs, { Dayjs } from "dayjs";
 import { ApiSourceType } from "@/types/api.source.type";
+import DefaultValues from "@/utils/default.values";
 
 export const useArticlesStore = create<ArticlesStoreStateInterface>((set, get) => ({
   articles: {
@@ -11,9 +12,9 @@ export const useArticlesStore = create<ArticlesStoreStateInterface>((set, get) =
     newYorkTimes: [],
   },
   filter: {
-    apiSourceType: ApiSourceType.Select,
+    apiSourceType: ApiSourceType.Default,
     term: "",
-    category: "-1",
+    category: DefaultValues.getSelect().id,
     sources: [],
     authors: [],
     date: null,
