@@ -1,6 +1,7 @@
 import Grid from "@mui/material/Grid2";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Link } from "react-router-dom";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 import Filter from "@/components/filter";
 import { useArticlesStore } from "@/stores/articles/use.articles.store";
@@ -8,7 +9,6 @@ import ArticlesStoreItemInterface from "@/stores/articles/articles.store.item.in
 import CustomComponent from "@/components/custom.component";
 import CustomSearchInput from "@/components/custom.search.input";
 import ArticleGrid from "@/components/article.grid";
-import { useMediaQuery, useTheme } from "@mui/material";
 
 const Home = () => {
   const { articles, filter, filterByTerm } = useArticlesStore((state) => state);
