@@ -1,8 +1,10 @@
 import { create } from "zustand";
-import UserStoreStateInterface from "./user.store.state.interface";
+
 import { ApiSourceType } from "@/types/api.source.type";
-import UserStoreDataInterface from "./user.store.data.interface";
 import DefaultValues from "@/utils/default.values";
+
+import UserStoreStateInterface from "./user.store.state.interface";
+import UserStoreDataInterface from "./user.store.data.interface";
 
 export const useUserStore = create<UserStoreStateInterface>((set, get) => ({
   user: {
@@ -29,7 +31,7 @@ export const useUserStore = create<UserStoreStateInterface>((set, get) => ({
   setUserApiSourceType: (apiSourceType: string[]) => {
     const sourceType = apiSourceType[0];
     if (Object.values(ApiSourceType).includes(sourceType as ApiSourceType)) {
-      let newState = {
+      const newState = {
         ...get(),
         user: {
           ...get().user,
@@ -41,7 +43,7 @@ export const useUserStore = create<UserStoreStateInterface>((set, get) => ({
     }
   },
   setUserCategory: (category: string) => {
-    let newState = {
+    const newState = {
       ...get(),
       user: {
         ...get().user,
@@ -52,7 +54,7 @@ export const useUserStore = create<UserStoreStateInterface>((set, get) => ({
     set(newState);
   },
   setUserAuthors: (authors: string[]) => {
-    let newState = {
+    const newState = {
       ...get(),
       user: {
         ...get().user,
@@ -63,7 +65,7 @@ export const useUserStore = create<UserStoreStateInterface>((set, get) => ({
     set(newState);
   },
   setUserSources: (sources: string[]) => {
-    let newState = {
+    const newState = {
       ...get(),
       user: {
         ...get().user,

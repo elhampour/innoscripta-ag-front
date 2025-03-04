@@ -3,22 +3,24 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import React from "react";
-import CustomDatePickerInterface from "./custom.date.picker.interface";
-import dayjs from "dayjs";
-import utc from 'dayjs/plugin/utc';
+import dayjs, { Dayjs } from "dayjs";
+import utc from "dayjs/plugin/utc";
 
-// Extend dayjs with UTC plugin
+import CustomDatePickerInterface from "./custom.date.picker.interface";
+
 dayjs.extend(utc);
 
 const CustomDatePicker = ({ item }: { item: CustomDatePickerInterface }) => {
-  // const [value, setValue] = React.useState<Dayjs | null>();
+  const handleChange = (newValue: Dayjs | null) => {
+    item.onChange(newValue); // Now it's safely typed as Dayjs or null
+  };
   return (
     <FormControl sx={{ m: 1, width: "100%" }}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
           label="Date"
-          value={item.value ? dayjs(item.value).utc() : null}
-          onChange={(newValue) => item.onChange(newValue)}
+          value={item.value} // Pass Dayjs or null
+          onChange={handleChange} // The onChange handler is correctly typed
         />
       </LocalizationProvider>
     </FormControl>

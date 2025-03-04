@@ -1,10 +1,12 @@
+import dayjs from "dayjs";
+
 import ArticlesStoreItemInterface from "@/stores/articles/articles.store.item.interface";
 import ArticlesFilterStoreInterface from "@/stores/articles/articles.filter.store.interface";
 import LookupDataInterface from "@/stores/common/lookup.data.interface";
+import DefaultValues from "@/utils/default.values";
+
 import NewYorkTimesApiArticlesResultInterface from "./new.york.times.api.articles.result.interface";
 import NewYorkTimesApiArticlesInterface from "./new.york.times.api.articles.interface";
-import dayjs from "dayjs";
-import DefaultValues from "@/utils/default.values";
 
 const FetchNewYorkTimesApiArticles = async (
   filter: ArticlesFilterStoreInterface
@@ -27,7 +29,8 @@ const FetchNewYorkTimesApiArticles = async (
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 
-  let result: NewYorkTimesApiArticlesInterface = await response.json();
+  let result: NewYorkTimesApiArticlesInterface =
+    (await response.json()) as NewYorkTimesApiArticlesInterface;
 
   const authors: LookupDataInterface[] = [
     DefaultValues.getSelect(),
@@ -101,8 +104,8 @@ const FetchNewYorkTimesApiArticles = async (
     result = filterBySources(result, filter.sources);
   }
 
-  let homeArticles: ArticlesStoreItemInterface[] = result.response.docs.map((newsArticle) => {
-    let image = newsArticle.multimedia.find((a) => a.type == "image");
+  const homeArticles: ArticlesStoreItemInterface[] = result.response.docs.map((newsArticle) => {
+    const image = newsArticle.multimedia.find((a) => a.type == "image");
     return {
       author: newsArticle.byline.original,
       title: newsArticle.headline.main,

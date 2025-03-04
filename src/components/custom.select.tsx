@@ -1,7 +1,10 @@
 import { FormControl, InputLabel, MenuItem, OutlinedInput, Select } from "@mui/material";
 import React from "react";
-import CustomSelectInterface from "./custom.select.interface";
+import { SelectChangeEvent } from "@mui/material";
+
 import LookupDataInterface from "@/stores/common/lookup.data.interface";
+
+import CustomSelectInterface from "./custom.select.interface";
 
 const CustomSelect = ({
   item,
@@ -10,11 +13,12 @@ const CustomSelect = ({
   item: CustomSelectInterface;
   items: LookupDataInterface[];
 }) => {
-  const handleChange = (event) => {
+  const handleChange = (event: SelectChangeEvent<string | string[]>) => {
     const {
       target: { value },
     } = event;
-    item.onChange(typeof value === "string" ? value.split(",") : value);
+
+    item.onChange(Array.isArray(value) ? value : value.split(","));
   };
   return (
     <FormControl sx={{ m: 1, width: "100%" }}>

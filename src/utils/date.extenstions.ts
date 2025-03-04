@@ -1,6 +1,3 @@
-import dayjs from "dayjs";
-require("dayjs/locale/en");
-
 const DateExtenstions = {
   format: (date: Date) => {
     date = new Date(date);

@@ -1,9 +1,11 @@
 import { create } from "zustand";
-import ArticlesStoreStateInterface from "./articles.store.state.interface";
-import ArticlesStoreItemInterface from "./articles.store.item.interface";
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
+
 import { ApiSourceType } from "@/types/api.source.type";
 import DefaultValues from "@/utils/default.values";
+
+import ArticlesStoreStateInterface from "./articles.store.state.interface";
+import ArticlesStoreItemInterface from "./articles.store.item.interface";
 
 export const useArticlesStore = create<ArticlesStoreStateInterface>((set, get) => ({
   articles: {
@@ -19,7 +21,12 @@ export const useArticlesStore = create<ArticlesStoreStateInterface>((set, get) =
     authors: [],
     date: null,
   },
-  setFilter: (apiSourceType, category, sources, authors) => {
+  setFilter: (
+    apiSourceType: ApiSourceType,
+    category: string,
+    sources: string[],
+    authors: string[]
+  ) => {
     set((state) => ({
       filter: {
         ...state.filter,
@@ -63,7 +70,7 @@ export const useArticlesStore = create<ArticlesStoreStateInterface>((set, get) =
     }));
   },
   filterByDate: (date: Dayjs) => {
-    let news = {
+    const news = {
       ...get(),
       filter: {
         ...get().filter,

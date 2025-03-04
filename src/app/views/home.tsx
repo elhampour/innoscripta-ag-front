@@ -1,15 +1,20 @@
 import { TextField } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { Link } from "react-router-dom";
+
 import Filter from "@/components/filter";
 import { useArticlesStore } from "@/stores/articles/use.articles.store";
 import ArticlesStoreItemInterface from "@/stores/articles/articles.store.item.interface";
-import SettingsIcon from "@mui/icons-material/Settings";
-import { Link } from "react-router-dom";
 import CustomComponent from "@/components/custom.component";
 import NewsCard from "@/components/news.card";
 
 const Home = () => {
   const { articles, filter, filterByTerm } = useArticlesStore((state) => state);
+  let currentArticles: ArticlesStoreItemInterface[] = [];
+  if (articles[filter.apiSourceType]) {
+    currentArticles = articles[filter.apiSourceType] as ArticlesStoreItemInterface[];
+  }
   return (
     <CustomComponent title="News">
       <Grid size={12}>
@@ -37,9 +42,9 @@ const Home = () => {
       <Grid container spacing={2}>
         <Grid size={9}>
           <Grid container spacing={2}>
-            {articles[filter.apiSourceType] &&
-              articles[filter.apiSourceType].map(
-                (homeStoreItemInterface: ArticlesStoreItemInterface, index) => {
+            {Array.isArray(currentArticles) &&
+              currentArticles.map(
+                (homeStoreItemInterface: ArticlesStoreItemInterface, index: number) => {
                   return (
                     <Grid size={4} key={index}>
                       <NewsCard item={homeStoreItemInterface} />

@@ -1,10 +1,10 @@
-import NewsApiArticlesResultInterface from "./news.api.articles.result.interface";
-import NewsApiArticlesInterface from "./news.api.articles.interface";
 import ArticlesStoreItemInterface from "@/stores/articles/articles.store.item.interface";
 import ArticlesFilterStoreInterface from "@/stores/articles/articles.filter.store.interface";
-import dayjs from "dayjs";
 import LookupDataInterface from "@/stores/common/lookup.data.interface";
 import DefaultValues from "@/utils/default.values";
+
+import NewsApiArticlesResultInterface from "./news.api.articles.result.interface";
+import NewsApiArticlesInterface from "./news.api.articles.interface";
 
 const FetchNewsApiArticles = async (
   filter: ArticlesFilterStoreInterface
@@ -23,9 +23,10 @@ const FetchNewsApiArticles = async (
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 
-  const newsApiResult: NewsApiArticlesInterface = await response.json();
+  const newsApiResult: NewsApiArticlesInterface =
+    (await response.json()) as NewsApiArticlesInterface;
 
-  let homeArticles: ArticlesStoreItemInterface[] = newsApiResult.articles.map((newsArticle) => ({
+  const homeArticles: ArticlesStoreItemInterface[] = newsApiResult.articles.map((newsArticle) => ({
     author: newsArticle.author,
     title: newsArticle.title,
     publishedAt: newsArticle.publishedAt,

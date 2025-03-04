@@ -1,10 +1,13 @@
+import dayjs from "dayjs";
+
 import ArticlesStoreItemInterface from "@/stores/articles/articles.store.item.interface";
-import GuardianApiContentsInterface from "./guardian.api.contents.interface";
-import GuardianApiContentsResultInterface from "./guardian.api.contents.result.interface";
 import LookupDataInterface from "@/stores/common/lookup.data.interface";
 import ArticlesFilterStoreInterface from "@/stores/articles/articles.filter.store.interface";
-import dayjs from "dayjs";
 import DefaultValues from "@/utils/default.values";
+import HtmlExtensions from "@/utils/html.extensions";
+
+import GuardianApiContentsInterface from "./guardian.api.contents.interface";
+import GuardianApiContentsResultInterface from "./guardian.api.contents.result.interface";
 
 const FetchGuardianApiContents = async (
   filter: ArticlesFilterStoreInterface
@@ -34,7 +37,8 @@ const FetchGuardianApiContents = async (
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 
-  let result: GuardianApiContentsInterface = await response.json();
+  let result: GuardianApiContentsInterface =
+    (await response.json()) as GuardianApiContentsInterface;
 
   const sources: LookupDataInterface[] = [
     DefaultValues.getSelect(),
@@ -108,19 +112,14 @@ const FetchGuardianApiContents = async (
     result = filterByAuthors(result, filter.authors);
   }
 
-  function htmlToText(htmlString) {
-    const doc = new DOMParser().parseFromString(htmlString, "text/html");
-    return doc.body.textContent || "";
-  }
-
   const articles: ArticlesStoreItemInterface[] = result.response.results.map((newsArticle) => {
-    let contributer = newsArticle.tags.find((a) => a.type == "contributor");
+    const contributer = newsArticle.tags.find((a) => a.type == "contributor");
     return {
       author: contributer == undefined ? "" : contributer.webTitle,
       title: newsArticle.webTitle,
       publishedAt: newsArticle.webPublicationDate,
       urlToImage: newsArticle.fields.thumbnail,
-      description: htmlToText(newsArticle.fields.standfirst),
+      description: HtmlExtensions.htmlToText(newsArticle.fields.standfirst),
       source: newsArticle.fields.publication,
       category: newsArticle.sectionName,
     };

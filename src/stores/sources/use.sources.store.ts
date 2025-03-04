@@ -1,9 +1,11 @@
 import { create } from "zustand";
-import SourcesStoreStateInterface from "./sources.store.data.interface";
-import LookupDataInterface from "../common/lookup.data.interface";
+
 import DefaultValues from "@/utils/default.values";
 
-export const useSourcesStore = create<SourcesStoreStateInterface>((set, get) => ({
+import SourcesStoreStateInterface from "./sources.store.data.interface";
+import LookupDataInterface from "../common/lookup.data.interface";
+
+export const useSourcesStore = create<SourcesStoreStateInterface>((set) => ({
   sources: {
     default: [DefaultValues.getSelect()],
     newsApi: [DefaultValues.getSelect()],

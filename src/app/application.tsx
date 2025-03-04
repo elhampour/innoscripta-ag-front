@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
+
 import { useSourcesStore } from "@/stores/sources/use.sources.store";
 import FetchNewsApiSources from "@/api/news-api/sources/fetch.news.api.sources";
 import FetchGuardianApiContents from "@/api/guardian/contents/fetch.guardian.api.contents";
@@ -13,6 +14,7 @@ import ArticlesFilterStoreInterface from "@/stores/articles/articles.filter.stor
 import FetchNewYorkTimesApiArticles from "@/api/new-york-times-api/articles/fetch.new.york.times.api.articles";
 import UserStoreDataInterface from "@/stores/user/user.store.data.interface";
 import { useUserStore } from "@/stores/user/use.user.store";
+
 import Home from "./views/home";
 import Setting from "./views/setting";
 
@@ -20,9 +22,7 @@ const Application = () => {
   const { clearUser, setUser } = useUserStore((state) => state);
   const { setSourcesByNewsApi, setSourcesByGuardianApi, setSourcesByNewYorkTimesApi } =
     useSourcesStore((state) => state);
-  const { setCategoriesByGuardianApi, setCategoriesByNewYorkTimesApi } = useCategoriesStore(
-    (state) => state
-  );
+  const { setCategoriesByGuardianApi } = useCategoriesStore((state) => state);
   const { setAuthorsByNewsApi, setAuthorsByGuardianApi, setAuthorsByNewYorkTimesApi } =
     useAuthorsStore((state) => state);
   const {
@@ -34,35 +34,35 @@ const Application = () => {
   } = useArticlesStore((state) => state);
 
   useEffect(() => {
-    let fetchDataNewsApiData = async (filter: ArticlesFilterStoreInterface) => {
-      let newsApiArticles = await FetchNewsApiArticles(filter);
+    const fetchDataNewsApiData = async (filter: ArticlesFilterStoreInterface) => {
+      const newsApiArticles = await FetchNewsApiArticles(filter);
       if (newsApiArticles.success) {
         setArticlesByNewsApi(newsApiArticles.items);
         setAuthorsByNewsApi(newsApiArticles.authors);
       }
 
-      let newsApiSourcesData = await FetchNewsApiSources();
+      const newsApiSourcesData = await FetchNewsApiSources();
       if (newsApiSourcesData.success) {
         setSourcesByNewsApi(newsApiSourcesData.items);
       }
     };
 
-    let fetchDataGuardianApiData = async (filter: ArticlesFilterStoreInterface) => {
-      let guardianApiContentsData = await FetchGuardianApiContents(filter);
+    const fetchDataGuardianApiData = async (filter: ArticlesFilterStoreInterface) => {
+      const guardianApiContentsData = await FetchGuardianApiContents(filter);
       if (guardianApiContentsData.success) {
         setArticlesByGuardianApi(guardianApiContentsData.items);
         setAuthorsByGuardianApi(guardianApiContentsData.authors);
         setSourcesByGuardianApi(guardianApiContentsData.sources);
       }
 
-      let guardianApiSectionsData = await FetchGuardianApiSections();
+      const guardianApiSectionsData = await FetchGuardianApiSections();
       if (guardianApiSectionsData.success) {
         setCategoriesByGuardianApi(guardianApiSectionsData.items);
       }
     };
 
-    let fetchDateNewYorkTimesApiData = async (filter: ArticlesFilterStoreInterface) => {
-      let newYorkTimesData = await FetchNewYorkTimesApiArticles(filter);
+    const fetchDateNewYorkTimesApiData = async (filter: ArticlesFilterStoreInterface) => {
+      const newYorkTimesData = await FetchNewYorkTimesApiArticles(filter);
       if (newYorkTimesData.success) {
         setArticlesByNewYorkTimesApi(newYorkTimesData.items);
         setAuthorsByNewYorkTimesApi(newYorkTimesData.authors);
@@ -70,26 +70,41 @@ const Application = () => {
       }
     };
 
-    if (filter.apiSourceType == ApiSourceType.Guardian) {
-      fetchDataGuardianApiData(filter);
-    }
+    const fetchData = async () => {
+      if (filter.apiSourceType === ApiSourceType.Guardian) {
+        await fetchDataGuardianApiData(filter);
+      }
 
-    if (filter.apiSourceType == ApiSourceType.NewsApi) {
-      fetchDataNewsApiData(filter);
-    }
+      if (filter.apiSourceType === ApiSourceType.NewsApi) {
+        await fetchDataNewsApiData(filter);
+      }
 
-    if (filter.apiSourceType == ApiSourceType.NewYorkTimes) {
-      fetchDateNewYorkTimesApiData(filter);
-    }
+      if (filter.apiSourceType === ApiSourceType.NewYorkTimes) {
+        await fetchDateNewYorkTimesApiData(filter);
+      }
+    };
 
-  }, [filter]);
+    fetchData().catch(() => {});
+  }, [
+    filter,
+    setArticlesByNewsApi,
+    setAuthorsByNewsApi,
+    setSourcesByNewsApi,
+    setArticlesByGuardianApi,
+    setAuthorsByGuardianApi,
+    setSourcesByGuardianApi,
+    setCategoriesByGuardianApi,
+    setArticlesByNewYorkTimesApi,
+    setAuthorsByNewYorkTimesApi,
+    setSourcesByNewYorkTimesApi,
+  ]);
 
   useEffect(() => {
-    let profileStr = localStorage.getItem("user");
+    const profileStr = localStorage.getItem("user");
     let profile: UserStoreDataInterface;
     try {
-      profile = JSON.parse(profileStr);
-    } catch (ex) {
+      profile = JSON.parse(profileStr) as UserStoreDataInterface;
+    } catch {
       clearUser();
       localStorage.removeItem("user");
     }
@@ -97,7 +112,7 @@ const Application = () => {
       setUser(profile);
       setFilter(profile.apiSourceType, profile.category, profile.sources, profile.authors);
     }
-  }, []);
+  }, [clearUser, setFilter, setUser]);
 
   return (
     <Router>

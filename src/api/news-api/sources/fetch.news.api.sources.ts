@@ -1,7 +1,8 @@
-import NewsApiSourcesResultInterface from "./news.api.sources.result.interface";
-import NewsApiSourcesInterface from "./news.api.sources.interface";
 import LookupDataInterface from "@/stores/common/lookup.data.interface";
 import DefaultValues from "@/utils/default.values";
+
+import NewsApiSourcesResultInterface from "./news.api.sources.result.interface";
+import NewsApiSourcesInterface from "./news.api.sources.interface";
 
 const FetchNewsApiSources = async (): Promise<NewsApiSourcesResultInterface> => {
   const response = await fetch(
@@ -12,7 +13,7 @@ const FetchNewsApiSources = async (): Promise<NewsApiSourcesResultInterface> => 
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 
-  const result: NewsApiSourcesInterface = await response.json();
+  const result: NewsApiSourcesInterface = (await response.json()) as NewsApiSourcesInterface;
 
   const sources: LookupDataInterface[] = [
     DefaultValues.getSelect(),

@@ -1,9 +1,11 @@
 import { create } from "zustand";
-import CategoriesStoreStateInterface from "./categories.store.data.interface";
-import LookupDataInterface from "../common/lookup.data.interface";
+
 import DefaultValues from "@/utils/default.values";
 
-export const useCategoriesStore = create<CategoriesStoreStateInterface>((set, get) => ({
+import CategoriesStoreStateInterface from "./categories.store.data.interface";
+import LookupDataInterface from "../common/lookup.data.interface";
+
+export const useCategoriesStore = create<CategoriesStoreStateInterface>((set) => ({
   categories: {
     default: [DefaultValues.getSelect()],
     newsApi: [
