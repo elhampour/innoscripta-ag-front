@@ -113,6 +113,11 @@ const FetchGuardianApiContents = async (
     result = filterByAuthors(result, filter.authors);
   }
 
+  function htmlToText(htmlString) {
+    const doc = new DOMParser().parseFromString(htmlString, "text/html");
+    return doc.body.textContent || "";
+  }
+
   const articles: ArticlesStoreItemInterface[] = result.response.results.map((newsArticle) => {
     let contributer = newsArticle.tags.find((a) => a.type == "contributor");
     return {
@@ -120,7 +125,9 @@ const FetchGuardianApiContents = async (
       title: newsArticle.webTitle,
       publishedAt: newsArticle.webPublicationDate,
       urlToImage: newsArticle.fields.thumbnail,
-      description: newsArticle.fields.standfirst,
+      description: htmlToText(newsArticle.fields.standfirst),
+      source: newsArticle.fields.publication,
+      category: newsArticle.sectionName,
     };
   });
 

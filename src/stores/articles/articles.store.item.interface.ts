@@ -4,4 +4,6 @@ export default interface ArticlesStoreItemInterface {
   publishedAt: Date;
   urlToImage: string;
   description: string;
+  source: string;
+  category: string;
 }

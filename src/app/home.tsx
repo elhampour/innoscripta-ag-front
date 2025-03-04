@@ -11,7 +11,7 @@ import CustomComponent from "./custom.component";
 const Home = () => {
   const { articles, filter, filterByTerm } = useArticlesStore((state) => state);
   return (
-    <CustomComponent title="Google News Clone">
+    <CustomComponent title="News">
       <Grid size={12}>
         <Grid container spacing={2}>
           <Grid size={11}>

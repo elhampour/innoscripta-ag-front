@@ -108,6 +108,8 @@ const FetchNewYorkTimesApiArticles = async (
       publishedAt: newsArticle.pub_date,
       urlToImage: image ? `https://static01.nyt.com/${image.url}` : "/images.png",
       description: newsArticle.abstract,
+      category: newsArticle.news_desk,
+      source: newsArticle.source,
     };
   });
 

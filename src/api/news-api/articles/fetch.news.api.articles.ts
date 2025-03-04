@@ -35,6 +35,8 @@ const FetchNewsApiArticles = async (
         ? "/images.png"
         : newsArticle.urlToImage,
     description: newsArticle.description,
+    category: "",
+    source: newsArticle.source.name,
   }));
 
   const authors: LookupDataInterface[] = [
