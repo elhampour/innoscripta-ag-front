@@ -27,11 +27,12 @@ const CustomSelect = ({
         onChange={handleChange}
         input={<OutlinedInput label="Name" />}
       >
-        {items.map((name) => (
-          <MenuItem key={name.id} value={name.id}>
-            {name.name}
-          </MenuItem>
-        ))}
+        {items &&
+          items.map((name) => (
+            <MenuItem key={name.id} value={name.id}>
+              {name.name}
+            </MenuItem>
+          ))}
       </Select>
     </FormControl>
   );

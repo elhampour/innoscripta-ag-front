@@ -1,6 +1,4 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Setting from "./setting";
-import Home from "./home";
 import { useEffect, useRef } from "react";
 import { useSourcesStore } from "@/stores/sources/use.sources.store";
 import FetchNewsApiSources from "@/api/news-api/sources/fetch.news.api.sources";
@@ -15,6 +13,8 @@ import ArticlesFilterStoreInterface from "@/stores/articles/articles.filter.stor
 import FetchNewYorkTimesApiArticles from "@/api/new-york-times-api/articles/fetch.new.york.times.api.articles";
 import UserStoreDataInterface from "@/stores/user/user.store.data.interface";
 import { useUserStore } from "@/stores/user/use.user.store";
+import Home from "./views/home";
+import Setting from "./views/setting";
 
 const Application = () => {
   const { clearUser, setUser } = useUserStore((state) => state);
@@ -81,6 +81,7 @@ const Application = () => {
     if (filter.apiSourceType == ApiSourceType.NewYorkTimes) {
       fetchDateNewYorkTimesApiData(filter);
     }
+
   }, [filter]);
 
   useEffect(() => {

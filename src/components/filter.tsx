@@ -1,12 +1,13 @@
 import Grid from "@mui/material/Grid2";
 import * as React from "react";
-import CustomDatePicker from "./date.picker";
-import CustomSelect from "./select";
 import { useSourcesStore } from "@/stores/sources/use.sources.store";
 import { useCategoriesStore } from "@/stores/categories/use.categories.store";
 import { useArticlesStore } from "@/stores/articles/use.articles.store";
 import { ApiSourceType } from "@/types/api.source.type";
 import { useAuthorsStore } from "@/stores/authors/use.authors.store";
+import EnumExtenstions from "@/utils/enum.extenstions";
+import CustomSelect from "./custom.select";
+import CustomDatePicker from "./custom.date.picker";
 
 const Filter = () => {
   const { sources } = useSourcesStore((state) => state);
@@ -30,11 +31,7 @@ const Filter = () => {
             value: [filter.apiSourceType],
             onChange: filterByApiSourceType,
           }}
-          items={[
-            { id: ApiSourceType.NewsApi, name: ApiSourceType.NewsApi },
-            { id: ApiSourceType.Guardian, name: ApiSourceType.Guardian },
-            { id: ApiSourceType.NewYorkTimes, name: ApiSourceType.NewYorkTimes },
-          ]}
+          items={EnumExtenstions.toArray(ApiSourceType)}
         />
         <CustomDatePicker item={{ value: filter.date, onChange: filterByDate }} />
         <CustomSelect

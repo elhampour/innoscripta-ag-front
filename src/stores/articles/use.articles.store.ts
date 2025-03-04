@@ -11,7 +11,7 @@ export const useArticlesStore = create<ArticlesStoreStateInterface>((set, get) =
     newYorkTimes: [],
   },
   filter: {
-    apiSourceType: ApiSourceType.Guardian,
+    apiSourceType: ApiSourceType.Select,
     term: "",
     category: "-1",
     sources: [],
@@ -72,27 +72,12 @@ export const useArticlesStore = create<ArticlesStoreStateInterface>((set, get) =
     set(news);
   },
   filterByApiSourceType: (apiSourceType: string[]) => {
-    if (apiSourceType[0] == ApiSourceType.Guardian) {
+    const sourceType = apiSourceType[0];
+    if (Object.values(ApiSourceType).includes(sourceType as ApiSourceType)) {
       set((state) => ({
         filter: {
           ...state.filter,
-          apiSourceType: ApiSourceType.Guardian,
-        },
-      }));
-    }
-    if (apiSourceType[0] == ApiSourceType.NewsApi) {
-      set((state) => ({
-        filter: {
-          ...state.filter,
-          apiSourceType: ApiSourceType.NewsApi,
-        },
-      }));
-    }
-    if (apiSourceType[0] == ApiSourceType.NewYorkTimes) {
-      set((state) => ({
-        filter: {
-          ...state.filter,
-          apiSourceType: ApiSourceType.NewYorkTimes,
+          apiSourceType: sourceType as ApiSourceType,
         },
       }));
     }

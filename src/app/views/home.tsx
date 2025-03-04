@@ -37,15 +37,16 @@ const Home = () => {
       <Grid container spacing={2}>
         <Grid size={9}>
           <Grid container spacing={2}>
-            {articles[filter.apiSourceType].map(
-              (homeStoreItemInterface: ArticlesStoreItemInterface, index) => {
-                return (
-                  <Grid size={4} key={index}>
-                    <RecipeReviewCard item={homeStoreItemInterface} />
-                  </Grid>
-                );
-              }
-            )}
+            {articles[filter.apiSourceType] &&
+              articles[filter.apiSourceType].map(
+                (homeStoreItemInterface: ArticlesStoreItemInterface, index) => {
+                  return (
+                    <Grid size={4} key={index}>
+                      <RecipeReviewCard item={homeStoreItemInterface} />
+                    </Grid>
+                  );
+                }
+              )}
           </Grid>
         </Grid>
         <Grid size={3}>

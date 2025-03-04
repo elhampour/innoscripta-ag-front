@@ -8,7 +8,7 @@ export const useUserStore = create<UserStoreStateInterface>((set, get) => ({
     category: "-1",
     sources: [],
     authors: [],
-    apiSourceType: ApiSourceType.Guardian,
+    apiSourceType: ApiSourceType.Select,
   },
   setUser: (data: UserStoreDataInterface) => {
     set({
@@ -21,30 +21,23 @@ export const useUserStore = create<UserStoreStateInterface>((set, get) => ({
         category: "-1",
         sources: [],
         authors: [],
-        apiSourceType: ApiSourceType.Guardian,
+        apiSourceType: ApiSourceType.Select,
       },
     });
   },
   setUserApiSourceType: (apiSourceType: string[]) => {
-    let newState = {
-      ...get(),
-      user: {
-        ...get().user,
-      },
-    };
-    if (apiSourceType[0] == ApiSourceType.Guardian) {
-      newState.user.apiSourceType = ApiSourceType.Guardian;
+    const sourceType = apiSourceType[0];
+    if (Object.values(ApiSourceType).includes(sourceType as ApiSourceType)) {
+      let newState = {
+        ...get(),
+        user: {
+          ...get().user,
+          apiSourceType: sourceType as ApiSourceType,
+        },
+      };
+      localStorage.setItem("user", JSON.stringify(newState.user));
+      set(newState);
     }
-    if (apiSourceType[0] == ApiSourceType.NewsApi) {
-      newState.user.apiSourceType = ApiSourceType.NewsApi;
-    }
-    if (apiSourceType[0] == ApiSourceType.NewYorkTimes) {
-      newState.user.apiSourceType = ApiSourceType.NewYorkTimes;
-    }
-
-    localStorage.setItem("user", JSON.stringify(newState.user));
-
-    set(newState);
   },
   setUserCategory: (category: string) => {
     let newState = {
