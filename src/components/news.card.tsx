@@ -7,7 +7,7 @@ import DateExtenstions from "@/utils/date.extenstions";
 import ArticlesStoreItemInterface from "@/stores/articles/articles.store.item.interface";
 import { Divider } from "@mui/material";
 
-export default function RecipeReviewCard({ item }: { item: ArticlesStoreItemInterface }) {
+export default function NewsCard({ item }: { item: ArticlesStoreItemInterface }) {
   return (
     <Card sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <Typography sx={{ minHeight: 100 }} gutterBottom m={1} component="div">

@@ -1,12 +1,12 @@
 import { TextField } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import RecipeReviewCard from "@/components/recipe.review.card";
 import Filter from "@/components/filter";
 import { useArticlesStore } from "@/stores/articles/use.articles.store";
 import ArticlesStoreItemInterface from "@/stores/articles/articles.store.item.interface";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Link } from "react-router-dom";
-import CustomComponent from "./custom.component";
+import CustomComponent from "@/components/custom.component";
+import NewsCard from "@/components/news.card";
 
 const Home = () => {
   const { articles, filter, filterByTerm } = useArticlesStore((state) => state);
@@ -42,7 +42,7 @@ const Home = () => {
                 (homeStoreItemInterface: ArticlesStoreItemInterface, index) => {
                   return (
                     <Grid size={4} key={index}>
-                      <RecipeReviewCard item={homeStoreItemInterface} />
+                      <NewsCard item={homeStoreItemInterface} />
                     </Grid>
                   );
                 }
