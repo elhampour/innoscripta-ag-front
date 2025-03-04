@@ -3,7 +3,7 @@ import { Dayjs } from "dayjs";
 
 export default interface ArticlesFilterStoreInterface {
   term: string;
-  catgeory: string;
+  category: string;
   sources: string[];
   authors: string[];
   date: Dayjs;

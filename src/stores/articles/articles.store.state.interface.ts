@@ -6,6 +6,7 @@ import ArticlesStoreItemInterface from "./articles.store.item.interface";
 export default interface ArticlesStoreStateInterface {
   articles: ArticlesStoreDataInterface;
   filter: ArticlesFilterStoreInterface;
+  setFilter: (apiSourceType, category, sources, authors) => void;
   setArticlesByNewsApi: (data: ArticlesStoreItemInterface[]) => void;
   setArticlesByGuardianApi: (data: ArticlesStoreItemInterface[]) => void;
   setArticlesByNewYorkTimesApi: (data: ArticlesStoreItemInterface[]) => void;

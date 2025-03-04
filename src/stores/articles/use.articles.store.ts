@@ -13,10 +13,21 @@ export const useArticlesStore = create<ArticlesStoreStateInterface>((set, get) =
   filter: {
     apiSourceType: ApiSourceType.Guardian,
     term: "",
-    catgeory: "-1",
+    category: "-1",
     sources: [],
     authors: [],
     date: null,
+  },
+  setFilter: (apiSourceType, category, sources, authors) => {
+    set((state) => ({
+      filter: {
+        ...state.filter,
+        apiSourceType: apiSourceType,
+        category: category,
+        sources: sources,
+        authors: authors,
+      },
+    }));
   },
   filterByTerm: (term: string) => {
     set((state) => ({
@@ -30,7 +41,7 @@ export const useArticlesStore = create<ArticlesStoreStateInterface>((set, get) =
     set((state) => ({
       filter: {
         ...state.filter,
-        catgeory: category,
+        category: category,
       },
     }));
   },

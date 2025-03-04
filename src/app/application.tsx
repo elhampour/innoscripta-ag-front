@@ -13,8 +13,11 @@ import { useCategoriesStore } from "@/stores/categories/use.categories.store";
 import { ApiSourceType } from "@/types/api.source.type";
 import ArticlesFilterStoreInterface from "@/stores/articles/articles.filter.store.interface";
 import FetchNewYorkTimesApiArticles from "@/api/new-york-times-api/articles/fetch.new.york.times.api.articles";
+import UserStoreDataInterface from "@/stores/user/user.store.data.interface";
+import { useUserStore } from "@/stores/user/use.user.store";
 
 const Application = () => {
+  const { clearUser, setUser } = useUserStore((state) => state);
   const { setSourcesByNewsApi, setSourcesByGuardianApi, setSourcesByNewYorkTimesApi } =
     useSourcesStore((state) => state);
   const { setCategoriesByGuardianApi, setCategoriesByNewYorkTimesApi } = useCategoriesStore(
@@ -22,8 +25,13 @@ const Application = () => {
   );
   const { setAuthorsByNewsApi, setAuthorsByGuardianApi, setAuthorsByNewYorkTimesApi } =
     useAuthorsStore((state) => state);
-  const { setArticlesByNewsApi, setArticlesByGuardianApi, setArticlesByNewYorkTimesApi, filter } =
-    useArticlesStore((state) => state);
+  const {
+    setFilter,
+    setArticlesByNewsApi,
+    setArticlesByGuardianApi,
+    setArticlesByNewYorkTimesApi,
+    filter,
+  } = useArticlesStore((state) => state);
 
   useEffect(() => {
     let fetchDataNewsApiData = async (filter: ArticlesFilterStoreInterface) => {
@@ -74,6 +82,21 @@ const Application = () => {
       fetchDateNewYorkTimesApiData(filter);
     }
   }, [filter]);
+
+  useEffect(() => {
+    let profileStr = localStorage.getItem("user");
+    let profile: UserStoreDataInterface;
+    try {
+      profile = JSON.parse(profileStr);
+    } catch (ex) {
+      clearUser();
+      localStorage.removeItem("user");
+    }
+    if (profile) {
+      setUser(profile);
+      setFilter(profile.apiSourceType, profile.category, profile.sources, profile.authors);
+    }
+  }, []);
 
   return (
     <Router>

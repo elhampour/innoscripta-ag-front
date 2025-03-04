@@ -23,8 +23,8 @@ const FetchGuardianApiContents = async (
     url = `${url}&from-date=${today}&to-date=${tomorrow}`;
   }
 
-  if (filter.catgeory != "-1") {
-    url = `${url}&section=${filter.catgeory}`;
+  if (filter.category != "-1") {
+    url = `${url}&section=${filter.category}`;
   }
 
   const response = await fetch(url);

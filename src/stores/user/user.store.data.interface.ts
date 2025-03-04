@@ -1,5 +1,8 @@
+import { ApiSourceType } from "@/types/api.source.type";
+
 export default interface UserStoreDataInterface {
-  categories: string[];
+  category: string;
   sources: string[];
   authors: string[];
+  apiSourceType: ApiSourceType;
 }

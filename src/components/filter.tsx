@@ -41,7 +41,7 @@ const Filter = () => {
           item={{
             title: "Category",
             multiple: false,
-            value: [filter.catgeory],
+            value: [filter.category],
             onChange: filterByCategory,
           }}
           items={categories[filter.apiSourceType]}
