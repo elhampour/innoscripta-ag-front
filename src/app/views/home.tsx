@@ -8,6 +8,7 @@ import ArticlesStoreItemInterface from "@/stores/articles/articles.store.item.in
 import CustomComponent from "@/components/custom.component";
 import CustomSearchInput from "@/components/custom.search.input";
 import ArticleGrid from "@/components/article.grid";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 const Home = () => {
   const { articles, filter, filterByTerm } = useArticlesStore((state) => state);
@@ -16,6 +17,10 @@ const Home = () => {
   if (articles[filter.apiSourceType]) {
     currentArticles = articles[filter.apiSourceType] as ArticlesStoreItemInterface[];
   }
+
+  const theme = useTheme();
+
+  const isMd = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <CustomComponent title="News">
@@ -35,12 +40,26 @@ const Home = () => {
         </Grid>
       </Grid>
       <Grid container spacing={2}>
-        <Grid size={9}>
-          <ArticleGrid articles={currentArticles} />
-        </Grid>
-        <Grid size={3}>
-          <Filter />
-        </Grid>
+        {isMd && (
+          <>
+            <Grid size={{ lg: 3, md: 12 }} width={"100%"}>
+              <Filter />
+            </Grid>
+            <Grid size={{ lg: 9, md: 12 }}>
+              <ArticleGrid articles={currentArticles} />
+            </Grid>
+          </>
+        )}
+        {!isMd && (
+          <>
+            <Grid size={{ lg: 9, md: 12 }}>
+              <ArticleGrid articles={currentArticles} />
+            </Grid>
+            <Grid size={{ lg: 3, md: 12 }}>
+              <Filter />
+            </Grid>
+          </>
+        )}
       </Grid>
     </CustomComponent>
   );

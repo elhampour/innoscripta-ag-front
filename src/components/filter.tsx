@@ -24,46 +24,44 @@ const Filter = () => {
     filterByApiSourceType,
   } = useArticlesStore((state) => state);
   return (
-    <Grid container>
-      <Grid size={12}>
-        <CustomSelect
-          item={{
-            title: "Api Source",
-            multiple: false,
-            value: [filter.apiSourceType],
-            onChange: filterByApiSourceType,
-          }}
-          items={EnumExtenstions.toArray(ApiSourceType)}
-        />
-        <CustomDatePicker item={{ value: filter.date, onChange: filterByDate }} />
-        <CustomSelect
-          item={{
-            title: "Category",
-            multiple: false,
-            value: [filter.category],
-            onChange: filterByCategory,
-          }}
-          items={categories[filter.apiSourceType]}
-        />
-        <CustomSelect
-          item={{
-            title: "Source",
-            multiple: true,
-            value: filter.sources,
-            onChange: filterBySources,
-          }}
-          items={sources[filter.apiSourceType]}
-        />
-        <CustomSelect
-          item={{
-            title: "Author",
-            multiple: true,
-            value: filter.authors,
-            onChange: filterByAuthors,
-          }}
-          items={authors[filter.apiSourceType]}
-        />
-      </Grid>
+    <Grid size={12}>
+      <CustomSelect
+        item={{
+          title: "Api Source",
+          multiple: false,
+          value: [filter.apiSourceType],
+          onChange: filterByApiSourceType,
+        }}
+        items={EnumExtenstions.toArray(ApiSourceType)}
+      />
+      <CustomDatePicker item={{ value: filter.date, onChange: filterByDate }} />
+      <CustomSelect
+        item={{
+          title: "Category",
+          multiple: false,
+          value: [filter.category],
+          onChange: filterByCategory,
+        }}
+        items={categories[filter.apiSourceType]}
+      />
+      <CustomSelect
+        item={{
+          title: "Source",
+          multiple: true,
+          value: filter.sources,
+          onChange: filterBySources,
+        }}
+        items={sources[filter.apiSourceType]}
+      />
+      <CustomSelect
+        item={{
+          title: "Author",
+          multiple: true,
+          value: filter.authors,
+          onChange: filterByAuthors,
+        }}
+        items={authors[filter.apiSourceType]}
+      />
     </Grid>
   );
 };

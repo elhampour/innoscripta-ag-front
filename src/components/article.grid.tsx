@@ -7,7 +7,7 @@ import NewsCard from "./news.card";
 const ArticleGrid = ({ articles }: { articles: ArticlesStoreItemInterface[] }) => (
   <Grid container spacing={2}>
     {articles.map((article, index) => (
-      <Grid size={4} key={index}>
+      <Grid size={{ lg: 4, md: 6 }} key={index}>
         <NewsCard item={article} />
       </Grid>
     ))}
