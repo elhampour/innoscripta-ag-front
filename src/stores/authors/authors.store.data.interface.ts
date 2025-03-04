@@ -5,4 +5,5 @@ export default interface AuthorsStoreStateInterface {
   authors: AuthorsStoreInterface;
   setAuthorsByNewsApi: (data: LookupDataInterface[]) => void;
   setAuthorsByGuardianApi: (data: LookupDataInterface[]) => void;
+  setAuthorsByNewYorkTimesApi: (data: LookupDataInterface[]) => void;
 }

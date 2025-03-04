@@ -8,6 +8,7 @@ export const useArticlesStore = create<ArticlesStoreStateInterface>((set, get) =
   articles: {
     newsApi: [],
     guardian: [],
+    newYorkTimes: [],
   },
   filter: {
     apiSourceType: ApiSourceType.Guardian,
@@ -76,6 +77,14 @@ export const useArticlesStore = create<ArticlesStoreStateInterface>((set, get) =
         },
       }));
     }
+    if (apiSourceType[0] == ApiSourceType.NewYorkTimes) {
+      set((state) => ({
+        filter: {
+          ...state.filter,
+          apiSourceType: ApiSourceType.NewYorkTimes,
+        },
+      }));
+    }
   },
   setArticlesByNewsApi: (data: ArticlesStoreItemInterface[]) => {
     set((state) => ({
@@ -90,6 +99,14 @@ export const useArticlesStore = create<ArticlesStoreStateInterface>((set, get) =
       articles: {
         ...state.articles,
         guardian: data,
+      },
+    }));
+  },
+  setArticlesByNewYorkTimesApi: (data: ArticlesStoreItemInterface[]) => {
+    set((state) => ({
+      articles: {
+        ...state.articles,
+        newYorkTimes: data,
       },
     }));
   },

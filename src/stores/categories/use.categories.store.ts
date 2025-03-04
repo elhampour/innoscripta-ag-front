@@ -44,12 +44,26 @@ export const useCategoriesStore = create<CategoriesStoreStateInterface>((set, ge
         name: "Select",
       },
     ],
+    newYorkTimes: [
+      {
+        id: "-1",
+        name: "Select",
+      },
+    ],
   },
   setCategoriesByGuardianApi: (data: LookupDataInterface[]) => {
     set((state) => ({
       categories: {
         ...state.categories,
         guardian: data,
+      },
+    }));
+  },
+  setCategoriesByNewYorkTimesApi: (data: LookupDataInterface[]) => {
+    set((state) => ({
+      categories: {
+        ...state.categories,
+        newYorkTimes: data,
       },
     }));
   },

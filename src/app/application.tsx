@@ -12,14 +12,18 @@ import FetchGuardianApiSections from "@/api/guardian/sections/fetch.guardian.api
 import { useCategoriesStore } from "@/stores/categories/use.categories.store";
 import { ApiSourceType } from "@/types/api.source.type";
 import ArticlesFilterStoreInterface from "@/stores/articles/articles.filter.store.interface";
+import FetchNewYorkTimesApiArticles from "@/api/new-york-times-api/articles/fetch.new.york.times.api.articles";
 
 const Application = () => {
-  const { setSourcesByNewsApi, setSourcesByGuardianApi } = useSourcesStore((state) => state);
-  const { setCategoriesByGuardianApi } = useCategoriesStore((state) => state);
-  const { setAuthorsByNewsApi, setAuthorsByGuardianApi } = useAuthorsStore((state) => state);
-  const { setArticlesByNewsApi, setArticlesByGuardianApi, filter } = useArticlesStore(
+  const { setSourcesByNewsApi, setSourcesByGuardianApi, setSourcesByNewYorkTimesApi } =
+    useSourcesStore((state) => state);
+  const { setCategoriesByGuardianApi, setCategoriesByNewYorkTimesApi } = useCategoriesStore(
     (state) => state
   );
+  const { setAuthorsByNewsApi, setAuthorsByGuardianApi, setAuthorsByNewYorkTimesApi } =
+    useAuthorsStore((state) => state);
+  const { setArticlesByNewsApi, setArticlesByGuardianApi, setArticlesByNewYorkTimesApi, filter } =
+    useArticlesStore((state) => state);
 
   useEffect(() => {
     let fetchDataNewsApiData = async (filter: ArticlesFilterStoreInterface) => {
@@ -49,12 +53,25 @@ const Application = () => {
       }
     };
 
+    let fetchDateNewYorkTimesApiData = async (filter: ArticlesFilterStoreInterface) => {
+      let newYorkTimesData = await FetchNewYorkTimesApiArticles(filter);
+      if (newYorkTimesData.success) {
+        setArticlesByNewYorkTimesApi(newYorkTimesData.items);
+        setAuthorsByNewYorkTimesApi(newYorkTimesData.authors);
+        setSourcesByNewYorkTimesApi(newYorkTimesData.sources);
+      }
+    };
+
     if (filter.apiSourceType == ApiSourceType.Guardian) {
       fetchDataGuardianApiData(filter);
     }
 
     if (filter.apiSourceType == ApiSourceType.NewsApi) {
       fetchDataNewsApiData(filter);
+    }
+
+    if (filter.apiSourceType == ApiSourceType.NewYorkTimes) {
+      fetchDateNewYorkTimesApiData(filter);
     }
   }, [filter]);
 

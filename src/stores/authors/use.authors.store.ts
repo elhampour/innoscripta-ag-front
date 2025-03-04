@@ -6,6 +6,7 @@ export const useAuthorsStore = create<AuthorsStoreStateInterface>((set, get) => 
   authors: {
     newsApi: [],
     guardian: [],
+    newYorkTimes: [],
   },
   setAuthorsByNewsApi: (data: LookupDataInterface[]) => {
     set((state) => ({
@@ -20,6 +21,14 @@ export const useAuthorsStore = create<AuthorsStoreStateInterface>((set, get) => 
       authors: {
         ...state.authors,
         guardian: data,
+      },
+    }));
+  },
+  setAuthorsByNewYorkTimesApi: (data: LookupDataInterface[]) => {
+    set((state) => ({
+      authors: {
+        ...state.authors,
+        newYorkTimes: data,
       },
     }));
   },

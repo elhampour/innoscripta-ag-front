@@ -8,6 +8,7 @@ export default interface ArticlesStoreStateInterface {
   filter: ArticlesFilterStoreInterface;
   setArticlesByNewsApi: (data: ArticlesStoreItemInterface[]) => void;
   setArticlesByGuardianApi: (data: ArticlesStoreItemInterface[]) => void;
+  setArticlesByNewYorkTimesApi: (data: ArticlesStoreItemInterface[]) => void;
   filterByTerm: (term: string) => void;
   filterByCategory: (category: string) => void;
   filterBySources: (sources: string[]) => void;

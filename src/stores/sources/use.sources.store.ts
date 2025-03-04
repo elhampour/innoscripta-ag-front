@@ -16,6 +16,12 @@ export const useSourcesStore = create<SourcesStoreStateInterface>((set, get) => 
         name: "Select",
       },
     ],
+    newYorkTimes: [
+      {
+        id: "-1",
+        name: "Select",
+      },
+    ],
   },
   setSourcesByNewsApi: (data: LookupDataInterface[]) => {
     set((state) => ({
@@ -30,6 +36,14 @@ export const useSourcesStore = create<SourcesStoreStateInterface>((set, get) => 
       sources: {
         ...state.sources,
         guardian: data,
+      },
+    }));
+  },
+  setSourcesByNewYorkTimesApi: (data: LookupDataInterface[]) => {
+    set((state) => ({
+      sources: {
+        ...state.sources,
+        newYorkTimes: data,
       },
     }));
   },

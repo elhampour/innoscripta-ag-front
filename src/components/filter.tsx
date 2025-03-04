@@ -33,6 +33,7 @@ const Filter = () => {
           items={[
             { id: ApiSourceType.NewsApi, name: ApiSourceType.NewsApi },
             { id: ApiSourceType.Guardian, name: ApiSourceType.Guardian },
+            { id: ApiSourceType.NewYorkTimes, name: ApiSourceType.NewYorkTimes },
           ]}
         />
         <CustomDatePicker item={{ value: filter.date, onChange: filterByDate }} />
