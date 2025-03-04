@@ -6,10 +6,10 @@ import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
-import HomeStoreItemInterface from "@/stores/home.store.item.interface";
 import DateExtenstions from "@/utils/date.extenstions";
+import ArticlesStoreItemInterface from "@/stores/articles/articles.store.item.interface";
 
-export default function RecipeReviewCard({ item }: { item: HomeStoreItemInterface }) {
+export default function RecipeReviewCard({ item }: { item: ArticlesStoreItemInterface }) {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {

@@ -1,6 +1,8 @@
-import LookupDataInterface from "../lookup.data.interface";
+import LookupDataInterface from "../common/lookup.data.interface";
+import { SourcesStoreItemStateInterface } from "./sources.store.item.state.interface";
 
 export default interface SourcesStoreStateInterface {
-  sources: LookupDataInterface[];
-  setSources: (data: LookupDataInterface[]) => void;
+  sources: SourcesStoreItemStateInterface;
+  setSourcesByNewsApi: (data: LookupDataInterface[]) => void;
+  setSourcesByGuardianApi: (data: LookupDataInterface[]) => void;
 }

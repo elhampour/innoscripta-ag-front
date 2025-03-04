@@ -1,7 +1,7 @@
 import { FormControl, InputLabel, MenuItem, OutlinedInput, Select } from "@mui/material";
 import React from "react";
 import CustomSelectInterface from "./custom.select.interface";
-import LookupDataInterface from "@/stores/lookup.data.interface";
+import LookupDataInterface from "@/stores/common/lookup.data.interface";
 
 const CustomSelect = ({
   item,

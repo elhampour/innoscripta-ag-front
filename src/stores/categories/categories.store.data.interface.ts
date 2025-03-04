@@ -1,6 +1,7 @@
-import LookupDataInterface from "../lookup.data.interface";
+import LookupDataInterface from "../common/lookup.data.interface";
+import CategoriesStoreInterface from "./categories.store.interface";
 
 export default interface CategoriesStoreStateInterface {
-  categories: LookupDataInterface[];
-  setCategories: (data: LookupDataInterface[]) => void;
+  categories: CategoriesStoreInterface;
+  setCategoriesByGuardianApi: (data: LookupDataInterface[]) => void;
 }

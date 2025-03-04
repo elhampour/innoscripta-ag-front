@@ -2,19 +2,19 @@ import { create } from "zustand";
 import ArticlesStoreStateInterface from "./articles.store.state.interface";
 import ArticlesStoreItemInterface from "./articles.store.item.interface";
 import dayjs, { Dayjs } from "dayjs";
+import { ApiSourceType } from "@/types/api.source.type";
 
 export const useArticlesStore = create<ArticlesStoreStateInterface>((set, get) => ({
   articles: {
-    pages: 0,
-    items: [],
-    totalCount: 0,
+    newsApi: [],
+    guardian: [],
   },
   filter: {
-    current: 1,
-    itemPerPage: 6,
+    apiSourceType: ApiSourceType.Guardian,
     term: "",
-    catgeory: "",
+    catgeory: "-1",
     sources: [],
+    authors: [],
     date: null,
   },
   filterByTerm: (term: string) => {
@@ -30,7 +30,6 @@ export const useArticlesStore = create<ArticlesStoreStateInterface>((set, get) =
       filter: {
         ...state.filter,
         catgeory: category,
-        sources: [],
       },
     }));
   },
@@ -39,26 +38,58 @@ export const useArticlesStore = create<ArticlesStoreStateInterface>((set, get) =
       filter: {
         ...state.filter,
         sources: sources,
-        catgeory: "",
+      },
+    }));
+  },
+  filterByAuthors: (authors: string[]) => {
+    set((state) => ({
+      filter: {
+        ...state.filter,
+        authors: authors,
       },
     }));
   },
   filterByDate: (date: Dayjs) => {
-    set((state) => ({
+    let news = {
+      ...get(),
       filter: {
-        ...state.filter,
+        ...get().filter,
         date: date,
       },
-    }));
+    };
+    set(news);
   },
-  setArticles: (data: ArticlesStoreItemInterface[], totalCount: number) => {
-    let pages = totalCount / get().filter.itemPerPage;
+  filterByApiSourceType: (apiSourceType: string[]) => {
+    if (apiSourceType[0] == ApiSourceType.Guardian) {
+      set((state) => ({
+        filter: {
+          ...state.filter,
+          apiSourceType: ApiSourceType.Guardian,
+        },
+      }));
+    }
+    if (apiSourceType[0] == ApiSourceType.NewsApi) {
+      set((state) => ({
+        filter: {
+          ...state.filter,
+          apiSourceType: ApiSourceType.NewsApi,
+        },
+      }));
+    }
+  },
+  setArticlesByNewsApi: (data: ArticlesStoreItemInterface[]) => {
     set((state) => ({
       articles: {
         ...state.articles,
-        items: data,
-        pages: pages,
-        totalCount: totalCount,
+        newsApi: data,
+      },
+    }));
+  },
+  setArticlesByGuardianApi: (data: ArticlesStoreItemInterface[]) => {
+    set((state) => ({
+      articles: {
+        ...state.articles,
+        guardian: data,
       },
     }));
   },

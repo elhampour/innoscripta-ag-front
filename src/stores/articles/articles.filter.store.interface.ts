@@ -1,10 +1,11 @@
+import { ApiSourceType } from "@/types/api.source.type";
 import { Dayjs } from "dayjs";
 
 export default interface ArticlesFilterStoreInterface {
   term: string;
-  current: number;
-  itemPerPage: number;
   catgeory: string;
   sources: string[];
+  authors: string[];
   date: Dayjs;
+  apiSourceType: ApiSourceType;
 }

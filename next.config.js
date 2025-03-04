@@ -7,7 +7,7 @@ const nextConfig = {
       },
     ];
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
   env: {
     BASE_URL: process.env.BASE_URL,
   },
