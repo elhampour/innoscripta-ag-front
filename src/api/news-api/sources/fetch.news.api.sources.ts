@@ -1,0 +1,32 @@
+import LookupDataInterface from "@/stores/common/lookup.data.interface";
+import DefaultValues from "@/utils/default.values";
+
+import NewsApiSourcesResultInterface from "./news.api.sources.result.interface";
+import NewsApiSourcesInterface from "./news.api.sources.interface";
+
+const FetchNewsApiSources = async (): Promise<NewsApiSourcesResultInterface> => {
+  const response = await fetch(
+    `https://newsapi.org/v2/top-headlines/sources?country=us&apiKey=70060ea1249b466685fcb26986e08be4`
+  );
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+
+  const result: NewsApiSourcesInterface = (await response.json()) as NewsApiSourcesInterface;
+
+  const sources: LookupDataInterface[] = [
+    DefaultValues.getSelect(),
+    ...result.sources.map((newsArticle) => ({
+      id: newsArticle.id,
+      name: newsArticle.name,
+    })),
+  ];
+
+  return {
+    success: result.status === "ok",
+    items: result.status === "ok" ? sources : [],
+  };
+};
+
+export default FetchNewsApiSources;

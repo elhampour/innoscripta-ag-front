@@ -1,0 +1,62 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["react", "react-hooks", "jsx-a11y", "@typescript-eslint", "import"],
+  "rules": {
+    "react/react-in-jsx-scope": "off", // Next.js does not require React to be in scope
+    "react/prop-types": "off", // TypeScript handles prop types
+    "react/jsx-uses-react": "off", // Next.js uses React automatically
+    "react/jsx-uses-vars": "error",
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "no-console": "warn",
+    "import/no-unresolved": "error",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          ["builtin", "external"], // First group: Built-in and external imports
+          ["internal"], // Second group: Internal imports (e.g., your store files)
+          ["parent", "sibling", "index"] // Third group: Parent, sibling, and index imports
+        ],
+        "pathGroups": [
+          {
+            "pattern": "@/**", // Treat absolute imports starting with "@/..." as a group
+            "group": "internal",
+            "position": "before"
+          }
+        ],
+        "newlines-between": "always" // Enforce newlines between groups
+      }
+    ],
+    "jsx-a11y/anchor-is-valid": "off", // Next.js handles this
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {
+        "controlComponents": ["Input"]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "warn"
+      }
+    }
+  ]
+}
