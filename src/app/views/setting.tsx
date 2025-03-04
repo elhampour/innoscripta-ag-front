@@ -10,13 +10,23 @@ import { useAuthorsStore } from "@/stores/authors/use.authors.store";
 import EnumExtenstions from "@/utils/enum.extenstions";
 import CustomComponent from "@/components/custom.component";
 import CustomSelect from "@/components/custom.select";
+import { useArticlesStore } from "@/stores/articles/use.articles.store";
 
 const Setting = () => {
+  const {
+    filterByCategory,
+    filterBySources,
+    filterByAuthors,
+    filter,
+    filterByDate,
+    filterByApiSourceType,
+  } = useArticlesStore((state) => state);
   const { categories } = useCategoriesStore((state) => state);
   const { authors } = useAuthorsStore((state) => state);
   const { sources } = useSourcesStore((state) => state);
   const { setUserCategory, setUserApiSourceType, setUserAuthors, setUserSources, user } =
     useUserStore((state) => state);
+
   return (
     <CustomComponent title="Setting">
       <form onSubmit={() => {}}>
@@ -25,7 +35,10 @@ const Setting = () => {
             title: "Api Source",
             multiple: false,
             value: [user.apiSourceType],
-            onChange: setUserApiSourceType,
+            onChange: (apiSourceType: string[]) => {
+              setUserApiSourceType(apiSourceType);
+              filterByApiSourceType(apiSourceType);
+            },
           }}
           items={EnumExtenstions.toArray(ApiSourceType)}
         />
@@ -34,7 +47,10 @@ const Setting = () => {
             title: "Category",
             multiple: false,
             value: [user.category],
-            onChange: setUserCategory,
+            onChange: (category: string) => {
+              setUserCategory(category);
+              filterByCategory(category);
+            },
           }}
           items={categories[user.apiSourceType]}
         />
@@ -43,7 +59,10 @@ const Setting = () => {
             title: "Source",
             multiple: true,
             value: user.sources,
-            onChange: setUserSources,
+            onChange: (sources: string[]) => {
+              setUserSources(sources);
+              filterBySources(sources);
+            },
           }}
           items={sources[user.apiSourceType]}
         />
@@ -52,7 +71,10 @@ const Setting = () => {
             title: "Author",
             multiple: true,
             value: user.authors,
-            onChange: setUserAuthors,
+            onChange: (authors: string[]) => {
+              setUserAuthors(authors);
+              filterByAuthors(authors);
+            },
           }}
           items={authors[user.apiSourceType]}
         />
